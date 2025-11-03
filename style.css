@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&family=Peralta&display=swap');
+
+.emilys-candy-regular {
+  font-family: "Emilys Candy", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.peralta-regular {
+  font-family: "Peralta", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+--almond: #f1dac4ff;
+--rose-quartz: #a69cacff;
+--ultra-violet: #474973ff;
+--oxford-blue: #161b33ff;
+--rich-black: #0d0c1dff;
+}
+
+body {
+    background-color: var(--oxford-blue);
+}
+
+.xl-container {
+    background-color: var(--ultra-violet);
+    width: 80%;
+    max-width: 800px;
+    min-width: 80vh;
+    margin: 5vh auto 0;
+    min-height: 600px;
+    border: 7px solid var(--rich-black);
+    border-radius: 35px;
+    box-shadow: -5px 5px 7px ;
+    /* display: flex;
+     */
+}
+
+#title {
+    font-family: "Emilys Candy", serif; 
+    color: var(--rose-quartz);
+    font-size: 3rem;
+    text-align: center;
+    /* margin: 1rem 0; */
+}
+.answer-container {
+    display: grid;
+    
+    /* border: 2px solid black; */
+    height: 8rem;
+}
+
+#catvas {
+    display: block;
+    position: relative;
+    top: 4rem;
+     margin: 1rem auto 0;
+     max-width: 100%;
+     height: auto;
+    z-index: 1;
+}
+
+.answer {
+    margin:auto;
+    width: 80%;
+     box-shadow: 0 0 0 10px var(--rose-quartz), 0 0 20px var(--rose-quartz);
+    height: 6rem;
+    
+    outline: none;
+    resize: none;
+    pointer-events: none;
+    background-color: var(--almond);
+    font-family: "Peralta", serif;
+    font-size: 1rem;
+
+}
+
+button {
+    margin: 3rem 0;
+    width: clamp(6rem, 30%, 8rem);
+    height: 3rem;
+    border-radius: 15px;
+    background-color: var(--rose-quartz);
+    box-shadow: 2px 2px 3px black;
+    font-family: "Emilys Candy", serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--oxford-blue);
+    z-index: 1000;
+}
+#api-funny {
+    margin: 0 20% 0 25%;
+}
+
+@media (max-width: 600px){
+    body {
+        height: 100vh;
+    }
+   .xl-container{
+    width: 90%;
+    /* margin: 2vh auto; */
+    min-height: 130vh;
+
+   }
+   #catvas{
+     position: relative;
+    top: 15rem;
+    max-width: 100%;
+   }
+   button {
+    font-size: 1.5rem;
+    width: 10rem;
+   }
+   .button-container{
+    /* display: flex; */
+    margin: 5rem auto 0;
+    /* justify-content: center; */
+   }
+    #api-funny {
+    margin: 0 0 0 4rem;
+    }
+    #api-facts{
+        margin: 0 4rem
+    }
+  .answer {
+    min-height: 30vh;
+    max-height: 40vh;
+    font-size: 1.5rem;
+  }
+
+}
