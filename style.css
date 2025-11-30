@@ -78,7 +78,7 @@ body {
 }
 
 button {
-    margin: 3rem 0;
+    
     width: clamp(6rem, 30%, 8rem);
     height: 3rem;
     border-radius: 15px;
@@ -90,8 +90,17 @@ button {
     color: var(--oxford-blue);
     z-index: 1000;
 }
-#api-funny {
-    margin: 0 20% 0 25%;
+
+.button-container{
+    position: relative;
+    top: 3rem;
+   transform: translateX(20%);
+   
+}
+#api-facts {
+ position: absolute;
+ left: 40%;
+ transform: translateX();
 }
 
 @media (max-width: 600px){
@@ -104,7 +113,7 @@ button {
     display: block;
     width: 100%;
     /* margin: 2vh auto; */
-    min-height: 100vh;
+    min-height: 90vh;
     margin-top: 0;
 
    }
@@ -116,25 +125,30 @@ button {
 
    #catvas{
     position: relative;
-    top: 14rem;
-    left: 2rem;
+    top: 5rem;
+    transform: translate(10%, 20svh);
     max-width: 100%;
    }
    button {
     font-size: 1.5rem;
     width: 8rem;
    }
-   .button-container{
-    /* display: flex; */
-    margin: 2rem auto 0;
-    /* justify-content: center; */
-   }
-    #api-funny {
-    margin: 0 0 0 2rem;
-    }
-    #api-facts{
-        margin: 0 2rem
-    }
+.button-container{
+    position: relative;
+    top: 3rem;
+   transform: translateX(14%);
+   
+}
+#api-funny {
+ position: absolute;
+ /* transform: translateX(-1rem); */
+}
+#api-facts {
+    position: absolute;
+    left: 40%;
+}
+  
+ 
   .answer {
     margin-top: 1rem;
     min-height: 30vh;
