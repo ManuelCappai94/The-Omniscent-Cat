@@ -1,7 +1,7 @@
-const catvas = document.getElementById("catvas") as HTMLCanvasElement;
-const ctx = catvas.getContext("2d") as CanvasRenderingContext2D;
+import { sounds, sprite, stopAllSounds} from "./assets.js";
 
-let animationFrames: number = 0;
+
+export const catvas = document.getElementById("catvas") as HTMLCanvasElement;
 
 
 abstract class Sprite {
@@ -18,9 +18,8 @@ abstract class Sprite {
         public spriteHeight: number,
         public isTalking: boolean, //flag per non interrompere l'animazione
         ){}
-       abstract getSrc(path:string):void;
+    
        draw(ctx : CanvasRenderingContext2D): void{
-        // ctx.clearRect(0, 0, catvas.width, catvas.height)
         ctx.drawImage(
             this.img,
             this.frameX * this.sheetWidth,
@@ -45,36 +44,65 @@ export const enum catState { //questo sarà il valore che passiamo a frameY
     pawLeft = 5
 }
 
-export const sounds = {
-    purr: new Audio("effects/fusa.mp3"),
-    text: new Audio("effects/text.mp3"),
-    miagolio: new Audio("effects/miagolio1.mp3"),
-    paw: new Audio("effects/paw.mp3"),
-    tail: new Audio("effects/tailMove.mp3"),
-    purr2: new Audio("effects/fusa2.mp3")
+const catHitbox = {
+    head : {
+        left : 100,
+        right: 200,
+        top: 40,
+        bottom: 120,
+    },
+    body : {
+        left : 200,
+        right: 400,
+        top: 40,
+        bottom: 170,
+    },
+    pawRight : {
+        left : 40,
+        right: 130,
+        top: 120,
+        bottom: 170,
+    },
+    pawLeft : {
+        left : 140,
+        right: 300,
+        top: 140,
+        bottom: 200,
+    },
 }
 
-function stopAllSounds(): void{
-    Object.values(sounds).forEach(audio=> {
-        audio.pause();
-        audio.currentTime = 0; //per resettare
-    })
-}
 
-
-class Cat extends Sprite {
+export class Cat extends Sprite {
     public staggerFrames: number; //in TS una propiretà va prima dichiarata
-    public state: number;
+    public state: catState;
     
     constructor(){//solo valori dinamici
-        const img = new Image()
-        super(img, 0 , 0 , 64, 64, 6, 0, 200, 200, false) //il super per funzionare deve prendere i valori dalla classe padre o riscivere tutto
+        
+        super(sprite.cat, 0 , 0 , 64, 64, 6, 0, 200, 200, false) //il super per funzionare deve prendere i valori dalla classe padre o riscivere tutto
         this.staggerFrames = 20 //inizializzo la propietà
         this.state = catState.idle;
     }
-    getSrc(path: string):void{
-        this.img.src = path
+protected stateManagment(
+    state: catState,
+     firstSound: HTMLAudioElement,
+      volume: number,
+       secondSound?: HTMLAudioElement | undefined,
+       
+     ){
+    if(!this.isTalking){
+        this.frameX= 0;
+        this.state = state;
+        firstSound.loop = true;
+        firstSound.volume = volume;
+        firstSound.play()
+        if(secondSound){
+            secondSound.loop = true;
+            secondSound.volume = volume;
+            secondSound.play()
+        } 
+
     }
+}
     //chiama il metodo .getBoundingClientRect() per definire hitbox specifiche in canvas
 public setupEventListeners(): void { 
         catvas.addEventListener("pointerdown", (e: MouseEvent) => {
@@ -84,39 +112,34 @@ public setupEventListeners(): void {
             //clientX è una proprietà readonly di mouseEvent
             //.left è una proprietà readonly dell interface DOMRect
             
-            if (x >= 100 && x <= 200 && y >= 40 && y <= 120) {
-                if(!this.isTalking) { //flag per non interrompere l'animazione
-                     this.frameX = 0;
-                this.state = catState.headMove;
-                sounds.purr.loop = true
-                sounds.purr.play()
-                }
-            } if(x >= 200 && x <= 400 && y >= 40 && y <= 170) {
-                if(!this.isTalking){
-                      this.frameX =0;
-                this.state = catState.tailMove;
-                sounds.purr2.loop = true;
-                sounds.tail.loop = true;
-                sounds.tail.play()
-                sounds.purr2.volume = 0.05
-                sounds.purr2.play()
-                }
-            } if(x >= 40 && x <= 130 && y >= 120 && y <= 170) {
-                if(!this.isTalking){
-                      this.frameX =0;
-                this.state = catState.pawRight;
-                sounds.paw.loop = true
-                sounds.paw.play()
-                }
-            } if(x >= 140 && x <= 300 && y >= 140 && y <= 200) {
-                if(!this.isTalking){
-                      this.frameX =0;
-                this.state = catState.pawLeft;
-                sounds.paw.play()
-                sounds.miagolio.loop = true;
-                sounds.miagolio.volume = 0.3
-                sounds.miagolio.play()
-                }
+            if (x >= catHitbox.head.left && x <= catHitbox.head.right && y >= catHitbox.head.top && y <= catHitbox.head.bottom) {
+                this.stateManagment(
+                    catState.headMove,
+                    sounds.purr,
+                    1
+                )
+            } if(x >= catHitbox.body.left && x <= catHitbox.body.right && y >= catHitbox.body.top && y <= catHitbox.body.bottom) {
+                this.stateManagment(
+                    catState.tailMove,
+                    sounds.purr2,
+                    0.10,
+                    sounds.tail,
+                   
+                )
+            } if(x >= catHitbox.pawRight.left && x <= catHitbox.pawRight.right && y >= catHitbox.pawRight.top && y <= catHitbox.pawRight.bottom) {
+                this.stateManagment(
+                    catState.pawRight,
+                    sounds.paw,
+                    1
+                )
+            } if(x >= catHitbox.pawLeft.left && x <= catHitbox.pawLeft.right && y >= catHitbox.pawLeft.top && y <= catHitbox.pawLeft.bottom) {
+            
+                this.stateManagment(
+                    catState.pawLeft,
+                    sounds.paw,
+                    0.25,
+                    sounds.miagolio,
+                )
             }
             
         });
@@ -132,28 +155,3 @@ public setupEventListeners(): void {
     }
 
 }
-export const cat = new Cat()
-cat.getSrc("./cat.png")
-cat.setupEventListeners()
-
-
-
-
-function animation (): void {
-    ctx.clearRect(0, 0, catvas.width, catvas.height) //non serve specificare il type
-    
- if(animationFrames % cat.staggerFrames == 0 ){ //stagger frames rallenta
-    if (cat.frameX < 5) cat.frameX ++;
-    else cat.frameX = 0;
- }
-
-// cat.frameY = cat.state
-// cat.updateFrameY()
-cat.animationIdle()
-
- cat.draw(ctx)
-  animationFrames++;
-    requestAnimationFrame(animation)
-}
-
-animation()

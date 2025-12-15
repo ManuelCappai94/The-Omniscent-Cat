@@ -24,10 +24,12 @@ body {
     width: 100%;
 }
 
+
+
 .xl-container {
     background-color: var(--ultra-violet);
     width: 80%;
-    max-width: 100vh;
+    max-width: 100dvi;
     /* min-width: 80vh; */
     margin: 5vh auto 0;
     min-height: 600px;
@@ -61,6 +63,10 @@ body {
      height: auto;
     z-index: 1;
 }
+/*con questa impedisco quel micro secondo di lag al tocco del canvas mentre il gatto parla*/
+#catvas.disabled{
+    pointer-events: none;
+}
 
 .answer {
     margin:auto;
@@ -92,15 +98,18 @@ button {
 }
 
 .button-container{
+    display: flex;
+    justify-content: space-around;
     position: relative;
     top: 3rem;
-   transform: translateX(20%);
+    left: 50%;
+   transform: translateX(-50%);
    
 }
 #api-facts {
- position: absolute;
- left: 40%;
- transform: translateX();
+ /* position: absolute; */
+ /* left: 50%; */
+
 }
 
 @media (max-width: 600px){
@@ -133,21 +142,14 @@ button {
     font-size: 1.5rem;
     width: 8rem;
    }
-.button-container{
-    position: relative;
+ .button-container{
+  
     top: 3rem;
-   transform: translateX(14%);
+ 
    
 }
-#api-funny {
- position: absolute;
- /* transform: translateX(-1rem); */
-}
-#api-facts {
-    position: absolute;
-    left: 40%;
-}
-  
+
+   
  
   .answer {
     margin-top: 1rem;
