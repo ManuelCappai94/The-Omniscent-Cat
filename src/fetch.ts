@@ -28,7 +28,7 @@ function addnewItem( cache: string[], newFact: string, storagekey: string){
 
 const storedCatFacts: (string |null) =  localStorage.getItem("catFacts");
 const storedChuck: (string |null) = localStorage.getItem("chuckNorris");
-
+//il parse mi serve farlo qua cosi a displayData passo il dato pronto
 if (storedCatFacts) cache.catFacts = JSON.parse(storedCatFacts);
 if (storedChuck) cache.chuckNorris = JSON.parse(storedChuck);
 

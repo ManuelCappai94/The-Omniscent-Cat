@@ -12,6 +12,7 @@ function addnewItem(cache, newFact, storagekey) {
 }
 const storedCatFacts = localStorage.getItem("catFacts");
 const storedChuck = localStorage.getItem("chuckNorris");
+//il parse mi serve farlo qua cosi a displayData passo il dato pronto
 if (storedCatFacts)
     cache.catFacts = JSON.parse(storedCatFacts);
 if (storedChuck)

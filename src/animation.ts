@@ -20,10 +20,9 @@ function animation (): void {
  }
 
 cat.animationIdle()
-
- cat.draw(ctx)
-  animationFrames++;
-    requestAnimationFrame(animation)
+cat.draw(ctx)
+animationFrames++;
+requestAnimationFrame(animation)
 }
 
 animation()
